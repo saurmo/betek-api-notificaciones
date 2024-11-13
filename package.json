@@ -1,0 +1,22 @@
+{
+  "name": "betek-api-notificaciones",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -e ts,json --exec 'ts-node index.ts' "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/nodemailer": "^6.4.16",
+    "config": "^3.3.12",
+    "express": "^4.21.1",
+    "nodemailer": "^6.9.16"
+  },
+  "devDependencies": {
+    "@types/config": "^3.3.5",
+    "@types/express": "^5.0.0"
+  }
+}

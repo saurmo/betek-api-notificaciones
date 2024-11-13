@@ -1,0 +1,6 @@
+{
+    "smtp": {
+        "user": "SMTP_USER",
+        "pass": "SMTP_PASS"
+    }
+}
