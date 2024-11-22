@@ -2,10 +2,11 @@
 import nodemailer from 'nodemailer'
 import config from 'config'
 import { MailOptions } from 'nodemailer/lib/ses-transport'
+import { EmailOptions } from '../../domain/EmailOptions'
 export class NodemailerEmailService {
 
 
-    sendEmail(to: string, subject: string, body: string) {
+    sendEmail(options: EmailOptions) {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -13,16 +14,21 @@ export class NodemailerEmailService {
                 pass: config.get('smtp.pass')
             }
         })
-     
-        
+
+        const attachments = []
+        if (options.pdf) {
+            attachments.push({
+                filename: 'Reporte.pdf',
+                content: options.pdf
+            })
+        }
+
         const mailOptions: MailOptions = {
             from: 'Santiago - saurmo0108@gmail.com',
-            to,
-            subject,
-            text: body,
-            attachments:[
-                
-            ]
+            to: options.to,
+            subject: options.subject,
+            text: options.body,
+           attachments
         }
         return transporter.sendMail(mailOptions)
     }

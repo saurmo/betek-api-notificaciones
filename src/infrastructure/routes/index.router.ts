@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { NodemailerEmailService } from "../services/nodemailer.service";
+import { EmailOptions } from "../../domain/EmailOptions";
 
 const router = express.Router()
 
@@ -11,7 +12,12 @@ router.post('/api/v1/notificaciones/correo', (request: Request, response: Respon
     const mailService = new NodemailerEmailService()
     
     // TODO: Guardar en base de datos el resultado del envio de correo (Solucion enviada o solución con error)
-    mailService.sendEmail(payload.to, payload.subject, payload.body).then(() => {
+    const options: EmailOptions = {
+        to: payload.to,
+        subject: payload.subject,
+        body: payload.body
+    }
+    mailService.sendEmail(options).then(() => {
         console.log('El correo se envio');
     }).catch(error => {
         console.error('El correo NO se envio', error);

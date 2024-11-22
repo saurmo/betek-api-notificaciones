@@ -1,5 +1,6 @@
 import amqp, { Channel, ConsumeMessage } from "amqplib";
 import { NodemailerEmailService } from "./services/nodemailer.service";
+import { EmailOptions } from "../domain/EmailOptions";
 
 const conectarMq = async () => {
     try {
@@ -27,12 +28,23 @@ const consumirMensajes = async (channel: Channel) => {
             if (message) {
                 console.log("Mensaje recibido");
                 const payload = JSON.parse(message.content.toString())
+
+                const pdf = Buffer.from(payload.pdf, 'base64')
+
                 const mailService = new NodemailerEmailService()
-                mailService.sendEmail(payload.to, payload.subject, payload.body).then(() => {
+                const options: EmailOptions = {
+                    to: payload.to,
+                    subject: payload.subject,
+                    body: payload.body,
+                    pdf
+                }
+                mailService.sendEmail(options).then(() => {
                     console.log('El correo se envio');
                 }).catch(error => {
                     console.error('El correo NO se envio', error);
                 })
+                // Confirmación de lectura del mensaje en la MQ
+                channel.ack(message)
             } else {
                 console.log("No hay mensaje");
             }
