@@ -19,7 +19,10 @@ export class NodemailerEmailService {
             from: 'Santiago - saurmo0108@gmail.com',
             to,
             subject,
-            text: body
+            text: body,
+            attachments:[
+                
+            ]
         }
         return transporter.sendMail(mailOptions)
     }
