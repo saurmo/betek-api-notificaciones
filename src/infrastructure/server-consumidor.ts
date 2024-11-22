@@ -28,8 +28,7 @@ const consumirMensajes = async (channel: Channel) => {
             if (message) {
                 console.log("Mensaje recibido");
                 const payload = JSON.parse(message.content.toString())
-
-                const pdf = Buffer.from(payload.pdf, 'base64')
+                const pdf = payload.pdf ? Buffer.from(payload.pdf, 'base64') : undefined
 
                 const mailService = new NodemailerEmailService()
                 const options: EmailOptions = {
